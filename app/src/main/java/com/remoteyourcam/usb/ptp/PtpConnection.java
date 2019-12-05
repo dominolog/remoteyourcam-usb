@@ -9,9 +9,9 @@ interface PtpConnection {
 
     PtpRequest createInRequest();
 
-    int bulkTransferOut(byte[] buffer, int length, int timeout);
+    int send(byte[] buffer, int length, int timeout);
 
-    int bulkTransferIn(byte[] buffer, int maxLength, int timeout);
+    int receive(byte[] buffer, int maxLength, int timeout);
 
     void requestWait();
 

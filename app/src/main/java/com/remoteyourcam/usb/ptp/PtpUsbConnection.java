@@ -67,12 +67,12 @@ public class PtpUsbConnection implements PtpConnection {
     }
 
     @Override
-    public int bulkTransferOut(byte[] buffer, int length, int timeout) {
+    public int send(byte[] buffer, int length, int timeout) {
         return connection.bulkTransfer(bulkOut, buffer, length, timeout);
     }
 
     @Override
-    public int bulkTransferIn(byte[] buffer, int maxLength, int timeout) {
+    public int receive(byte[] buffer, int maxLength, int timeout) {
         return connection.bulkTransfer(bulkIn, buffer, maxLength, timeout);
     }
 

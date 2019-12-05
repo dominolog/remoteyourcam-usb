@@ -16,7 +16,6 @@
 package com.remoteyourcam.usb.ptp;
 
 import android.graphics.Bitmap;
-import android.hardware.usb.UsbRequest;
 import android.os.Handler;
 import android.util.Log;
 
@@ -589,7 +588,7 @@ public abstract class PtpCamera implements Camera {
 
             int outLen = b.position();
 
-            int res = connection.bulkTransferOut(b.array(), outLen, AppConfig.USB_TRANSFER_TIMEOUT);
+            int res = connection.send(b.array(), outLen, AppConfig.USB_TRANSFER_TIMEOUT);
             if (res < outLen) {
                 onUsbError(String.format("Code CP %d %d", res, outLen));
                 return;
@@ -600,7 +599,7 @@ public abstract class PtpCamera implements Camera {
                 b.order(ByteOrder.LITTLE_ENDIAN);
                 command.encodeData(b);
                 outLen = b.position();
-                res = connection.bulkTransferOut(b.array(), outLen, AppConfig.USB_TRANSFER_TIMEOUT);
+                res = connection.send(b.array(), outLen, AppConfig.USB_TRANSFER_TIMEOUT);
                 if (res < outLen) {
                     onUsbError(String.format("Code DP %d %d", res, outLen));
                     return;
@@ -614,7 +613,7 @@ public abstract class PtpCamera implements Camera {
 
                 res = 0;
                 while (res == 0) {
-                    res = connection.bulkTransferIn(in.array(), maxPacketSize, AppConfig.USB_TRANSFER_TIMEOUT);
+                    res = connection.receive(in.array(), maxPacketSize, AppConfig.USB_TRANSFER_TIMEOUT);
                 }
                 if (res < 12) {
                     onUsbError(String.format("Couldn't read header, only %d bytes available!", res));
