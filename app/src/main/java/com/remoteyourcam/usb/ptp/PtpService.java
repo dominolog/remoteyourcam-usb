@@ -35,7 +35,8 @@ public interface PtpService {
 
         public static PtpService getInstance(Context context) {
             if (singleton == null) {
-                singleton = new PtpUsbService(context);
+                //singleton = new PtpUsbService(context);
+                singleton = new PtpSocketService(context);
             }
             return singleton;
         }

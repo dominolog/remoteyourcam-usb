@@ -5,6 +5,7 @@ import android.hardware.usb.UsbRequest;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.ByteBuffer;
 
 public class PtpSocketConnection implements PtpConnection {
@@ -15,7 +16,7 @@ public class PtpSocketConnection implements PtpConnection {
         this.address = address;
         try {
             socket = new Socket(address, port);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             socket = null;
         }
@@ -25,19 +26,27 @@ public class PtpSocketConnection implements PtpConnection {
     public void close() {
         try {
             socket.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public int getMaxPacketInSize() {
-        return 0;
+        try {
+            return socket.getReceiveBufferSize();
+        } catch (Exception e) {
+            return 65535;
+        }
     }
 
     @Override
     public int getMaxPacketOutSize() {
-        return 0;
+        try {
+            return socket.getSendBufferSize();
+        } catch (Exception e) {
+            return 65535;
+        }
     }
 
     @Override
@@ -50,7 +59,7 @@ public class PtpSocketConnection implements PtpConnection {
 
         try {
             return socket.getChannel().write(ByteBuffer.wrap(buffer, 0, length));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return -1;
@@ -61,7 +70,7 @@ public class PtpSocketConnection implements PtpConnection {
 
         try {
             return socket.getChannel().read(ByteBuffer.wrap(buffer, 0, maxLength));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return -1;

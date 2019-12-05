@@ -11,6 +11,10 @@ public class PtpSocketService implements PtpService {
     private Camera.CameraListener listener;
     private PtpCamera camera;
 
+    public PtpSocketService(Context context) {
+
+    }
+
     @Override
     public void setCameraListener(Camera.CameraListener listener) {
         this.listener = listener;
