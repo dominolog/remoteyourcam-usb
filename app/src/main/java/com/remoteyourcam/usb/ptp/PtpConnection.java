@@ -1,7 +1,5 @@
 package com.remoteyourcam.usb.ptp;
 
-import android.hardware.usb.UsbRequest;
-
 interface PtpConnection {
     void close();
 

@@ -5,6 +5,7 @@ import android.hardware.usb.UsbRequest;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 
 public class PtpSocketConnection implements PtpConnection {
     private final InetAddress address;
@@ -22,7 +23,11 @@ public class PtpSocketConnection implements PtpConnection {
 
     @Override
     public void close() {
-
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -42,17 +47,33 @@ public class PtpSocketConnection implements PtpConnection {
 
     @Override
     public int bulkTransferOut(byte[] buffer, int length, int timeout) {
-        return 0;
+
+        try {
+            return socket.getChannel().write(ByteBuffer.wrap(buffer, 0, length));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public int bulkTransferIn(byte[] buffer, int maxLength, int timeout) {
-        return 0;
+
+        try {
+            return socket.getChannel().read(ByteBuffer.wrap(buffer, 0, maxLength));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public void requestWait() {
-
+        try {
+            socket.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
