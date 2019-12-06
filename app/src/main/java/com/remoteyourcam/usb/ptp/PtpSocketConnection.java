@@ -1,19 +1,20 @@
 package com.remoteyourcam.usb.ptp;
 
-import android.hardware.usb.UsbRequest;
-
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketException;
 import java.nio.ByteBuffer;
 
 public class PtpSocketConnection implements PtpConnection {
     private final InetAddress address;
+    private final int port;
     private Socket socket;
 
     public PtpSocketConnection(InetAddress address, int port) {
         this.address = address;
+        this.port = port;
+    }
+
+    private void connect() {
         try {
             socket = new Socket(address, port);
         } catch (Exception e) {
@@ -51,6 +52,9 @@ public class PtpSocketConnection implements PtpConnection {
 
     @Override
     public PtpRequest createInRequest() {
+        if (socket == null) {
+            connect();
+        }
         return new PtpSocketRequest(socket);
     }
 
@@ -58,7 +62,8 @@ public class PtpSocketConnection implements PtpConnection {
     public int send(byte[] buffer, int length, int timeout) {
 
         try {
-            return socket.getChannel().write(ByteBuffer.wrap(buffer, 0, length));
+            socket.getOutputStream().write(buffer, 0, length);
+            return length;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,7 +74,7 @@ public class PtpSocketConnection implements PtpConnection {
     public int receive(byte[] buffer, int maxLength, int timeout) {
 
         try {
-            return socket.getChannel().read(ByteBuffer.wrap(buffer, 0, maxLength));
+            return socket.getInputStream().read(buffer, 0, maxLength);
         } catch (Exception e) {
             e.printStackTrace();
         }

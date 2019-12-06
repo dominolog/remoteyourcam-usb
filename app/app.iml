@@ -89,7 +89,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: __local_aars__:/home/cubesoft/Development/Projects/remoteyourcam-usb_/app/libs/acra-4.2.3-sources.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:/home/cubesoft/Development/Projects/remoteyourcam-usb_/app/libs/acra-4.2.3.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:/home/cube/Development/Projects/Waldo/remoteyourcam-usb/app/libs/acra-4.2.3-sources.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:/home/cube/Development/Projects/Waldo/remoteyourcam-usb/app/libs/acra-4.2.3.jar:unspecified@jar" level="project" />
   </component>
 </module>

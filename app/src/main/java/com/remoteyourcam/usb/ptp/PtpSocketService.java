@@ -25,11 +25,11 @@ public class PtpSocketService implements PtpService {
         int vendorId = PtpConstants.CanonVendorId;
         InetAddress address = null;
         try {
-            address = InetAddress.getByName("192.168.0.1");
+            address = InetAddress.getByName("192.168.10.177");
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        int port = 15750;
+        int port = 15740;
         if (vendorId == PtpConstants.CanonVendorId) {
             PtpSocketConnection connection = new PtpSocketConnection(address, port);
             camera = new EosCamera(connection, listener, new WorkerNotifier(context));
@@ -37,7 +37,7 @@ public class PtpSocketService implements PtpService {
             PtpSocketConnection connection = new PtpSocketConnection(address, port);
             camera = new NikonCamera(connection, listener, new WorkerNotifier(context));
         }
-        camera.retrieveStorages(new Camera.StorageInfoListener() {
+        /*camera.retrieveStorages(new Camera.StorageInfoListener() {
                                     @Override
                                     public void onStorageFound(int handle, String label) {
 
@@ -53,7 +53,7 @@ public class PtpSocketService implements PtpService {
 
                                     }
                                 }
-        );
+        );*/
     }
 
     @Override
